@@ -1,4 +1,5 @@
 import React, { Component, useState } from "react";
+import Province from "./province";
 import "./../styles/App.css";
 
 // Do not alter the states const and values inside it.
@@ -155,59 +156,19 @@ const states = [
 ];
 
 function App() {
-  const [stateClick, setstateClick] = useState(false);
-  const [cityClick, setcityClick] = useState(false);
-  const [townClick, settownClick] = useState(false);
-
-  const displaycity = (evt) => {
-    let display = evt.target.value;
-    setstateClick(!stateClick);
-  };
-  const hanldetownClick = (evt) => {
-    evt.stopPropagation();
-
-    setcityClick(!cityClick);
-  };
+  const [state, setstate] = useState(states);
 
   return (
     <div id="main">
-      {states.map((state, index) => {
-        let rendercity = false;
-
-        return (
-          <>
-            <li id={`state${index + 1}`} value={index} onClick={displaycity}>
-              {state.name}
-              {stateClick
-                ? state.cities.map((city, indexcity) => {
-                    return (
-                      <>
-                        <ul
-                          id={`city${indexcity + 1}`}
-                          value={indexcity}
-                          onClick={hanldetownClick}
-                        >
-                          {city.name}
-                          {cityClick
-                            ? city.towns.map((town, indextown) => {
-                                return (
-                                  <>
-                                    <ul id={`town${indextown + 1}`}>
-                                      {town.name}
-                                    </ul>
-                                  </>
-                                );
-                              })
-                            : null}
-                        </ul>
-                      </>
-                    );
-                  })
-                : null}
-            </li>
-          </>
-        );
-      })}
+      <ul>
+        {state.map((item) => (
+          <Province
+            index={state.indexOf(item)}
+            name={item.name}
+            cities={item.cities}
+          />
+        ))}
+      </ul>
     </div>
   );
 }
